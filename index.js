@@ -4,8 +4,9 @@ const github = require('@actions/github');
 try {
   const input = core.getInput('relese-notes-ignore-pattern')
     const pullRequestBody = github.context.payload.pull_request?.body
+    console.log(pullRequestBody)
     if (!pullRequestBody.includes(input)){
-        throw new Error('Must put ${ input } in PR description')
+        throw new Error(`Must put ${input} in PR description`)
     }
 } catch (error) {
   core.setFailed(error.message);
