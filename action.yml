@@ -1,0 +1,10 @@
+name: 'PR Validation'
+description: 'Validate PR'
+inputs:
+  relese-notes-ignore-pattern:
+    required: true
+    default: '[!RL]'
+
+runs:
+  using: 'node16'
+  main: 'index.js'
