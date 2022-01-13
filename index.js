@@ -36,8 +36,10 @@ try {
     console.log(response)
     return response
   })(client)
+
+  let result = await Promise.all([response])
   console.log("Response:")
-  console.log(response)
+  console.log(result)
   const changedFiles = response.data.files
 
   console.log(changedFiles)
