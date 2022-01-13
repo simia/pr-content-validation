@@ -10,17 +10,14 @@ async function run() {
 
     switch (context.eventName) {
       case 'pull_request':
+      case 'pull_request_review_comment':
+      case 'issue':
         base = context.payload.pull_request?.base?.sha
         head = context.payload.pull_request?.head?.sha
-        break
-      case 'push':
-        base = context.payload.before
-        head = context.payload.after
         break
       default:
         throw "Only push and pull_request is supported"
     }
-
 
     const response = await client.rest.repos.compareCommits({
       base,
@@ -35,10 +32,12 @@ async function run() {
       return
     }
 
+    console.log(github.context.payload.comment)
     const pullRequestBody = github.context.payload.pull_request?.body
     if (!pullRequestBody.includes(input)) {
       throw new Error(`Must put \"${input}\" in PR description or update release notes file \"${releaseNotesFilename}\"`)
     }
+
   } catch (error) {
     core.setFailed(error.message);
   }
