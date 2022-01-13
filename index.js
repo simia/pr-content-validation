@@ -4,9 +4,9 @@ const { context } = require('@actions/github/lib/utils');
 
 try {
   const input = core.getInput('relese-notes-ignore-pattern')
-  
-  const client = new GitHub(core.getInput('token', {required: true}))
-  
+
+  const client = new GitHub(core.getInput('token', { required: true }))
+
   console.log(github.context.payload)
   console.log(context.eventName)
 
@@ -20,10 +20,7 @@ try {
       head = context.payload.after
       break
     default:
-      core.setFailed(
-        `This action only supports pull requests and pushes, ${context.eventName} events are not supported. ` +
-          "Please submit an issue on this action's GitHub repo if you believe this in correct."
-      )
+      throw "Only push and pull_request is supported"
   }
 
   console.log(base)
@@ -41,9 +38,9 @@ try {
   console.log(changedFiles)
 
   const pullRequestBody = github.context.payload.pull_request?.body
-    if (!pullRequestBody.includes(input)){
-        throw new Error(`Must put ${input} in PR description`)
-    }
+  if (!pullRequestBody.includes(input)) {
+    throw new Error(`Must put ${input} in PR description`)
+  }
 } catch (error) {
   core.setFailed(error.message);
 }
