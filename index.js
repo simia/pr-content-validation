@@ -36,7 +36,8 @@ try {
     console.log(response)
     return response
   })(client)
-
+  console.log("Response:")
+  console.log(response)
   const changedFiles = response.data.files
 
   console.log(changedFiles)
