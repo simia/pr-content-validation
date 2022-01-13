@@ -8,7 +8,7 @@ async function run() {
     const releaseNotesFilename = core.getInput('release-notes-file')
     const client = new GitHub({ auth: core.getInput('token', { required: true }) })
 
-    console.log(context.payload.issue.pull_request)
+    console.log(context.payload.issue?.pull_request)
     console.log(context.payload.pull_request)
 
     switch (context.eventName) {
