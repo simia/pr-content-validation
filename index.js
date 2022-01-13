@@ -5,10 +5,10 @@ const { context } = require('@actions/github/lib/utils');
 try {
   const input = core.getInput('relese-notes-ignore-pattern')
 
-  const client = new GitHub(core.getInput('token', { required: true }))
-
+  const client = new github.GitHub(core.getInput('token', { required: true }))
+  
   console.log(github.context.payload)
-  console.log(context.eventName)
+  console.log(github.context.eventName)
 
   switch (context.eventName) {
     case 'pull_request':
@@ -26,12 +26,15 @@ try {
   console.log(base)
   console.log(head)
 
-  const response = await client.repos.compareCommits({
-    base,
-    head,
-    owner: github.context.repo.owner,
-    repo: github.context.repo.repo
-  })
+  response = (async function(){
+    const response = await client.repos.compareCommits({
+      base,
+      head,
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo
+    })
+    return response
+  })()
 
   const changedFiles = response.data.files
 
