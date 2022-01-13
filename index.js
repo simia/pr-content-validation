@@ -27,13 +27,13 @@ try {
   console.log(head)
 
   response = (async function(client){
-    
     const response = await client.rest.repos.compareCommits({
       base,
       head,
       owner: github.context.repo.owner,
       repo: github.context.repo.repo
     })
+    console.log(response)
     return response
   })(client)
 
