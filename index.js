@@ -9,7 +9,7 @@ try {
   
   console.log(github.context.payload)
   console.log(github.context.eventName)
-
+  
   switch (context.eventName) {
     case 'pull_request':
       base = context.payload.pull_request?.base?.sha
@@ -27,7 +27,7 @@ try {
   console.log(head)
 
   response = (async function(client){
-    const response = await client.repos.compareCommits({
+    const response = await client.rest.repos.compareCommits({
       base,
       head,
       owner: github.context.repo.owner,
