@@ -8,11 +8,14 @@ async function run() {
     const releaseNotesFilename = core.getInput('release-notes-file')
     const client = new GitHub({ auth: core.getInput('token', { required: true }) })
 
-    console.log(context)
+    console.log(context.payload.pull_request)
+    
 
     switch (context.eventName) {
       case 'pull_request':
       case 'pull_request_review_comment':
+        base = context.payload.pull_request?.base?.sha
+        head = context.payload.pull_request?.head?.sha
         break
       case 'issue':
         base = context.payload.issue.pull_request?.base?.sha
@@ -33,9 +36,9 @@ async function run() {
     if (foundReleaseNotes) {
       return
     }
-
-    console.log(github.context.payload.comment)
-    const pullRequestBody = github.context.payload.issue.pull_request?.body
+    
+    console.log(context.payload.comment)
+    const pullRequestBody = github.context.payload.pull_request?.body
     if (!pullRequestBody.includes(input)) {
       throw new Error(`Must put \"${input}\" in PR description or update release notes file \"${releaseNotesFilename}\"`)
     }
