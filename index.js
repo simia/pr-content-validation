@@ -7,9 +7,24 @@ async function run() {
     const input = core.getInput('relese-notes-ignore-pattern')
     const releaseNotesFilename = core.getInput('release-notes-file')
     const client = new GitHub({ auth: core.getInput('token', { required: true }) })
+    
+    const request = {
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      pull_number: context.issue.number
+    }
+    console.log(`Getting PR #${request.pull_number} from ${request.owner}/${request.repo}`)
+    //try {
+      const result = await github.pulls.get(request)
+      //return result.data
+    // } catch (err) {
+    //   core.setFailed(`Request failed with error ${err}`)
+    // }
 
-    console.log(context.payload.issue?.pull_request)
-    console.log(context.payload.pull_request)
+    console.log(result)
+
+    // console.log(context.payload.issue?.pull_request)
+    // console.log(context.payload.pull_request)
 
     switch (context.eventName) {
       case 'pull_request':
