@@ -8,6 +8,8 @@ async function run() {
     const releaseNotesFilename = core.getInput('release-notes-file')
     const client = new GitHub({ auth: core.getInput('token', { required: true }) })
 
+    console.log(context)
+
     switch (context.eventName) {
       case 'pull_request':
       case 'pull_request_review_comment':
