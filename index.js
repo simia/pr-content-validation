@@ -22,7 +22,7 @@ async function run() {
       owner: context.repo.owner,
       repo: context.repo.repo,
       name: "Check Created by API",
-      head_sha: result.head.sha,
+      head_sha: result.data.head.sha,
       status: "completed",
       conclusion: "success",
       output: {
