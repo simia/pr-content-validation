@@ -5,11 +5,8 @@ const { context, GitHub } = require('@actions/github/lib/utils');
 async function run() {
   try {
     const input = core.getInput('relese-notes-ignore-pattern')
-
+    const releaseNotesFilename = core.getInput('release-notes-file')
     const client = new GitHub({ auth: core.getInput('token', { required: true }) })
-
-    console.log(github.context.payload)
-    console.log(github.context.eventName)
 
     switch (context.eventName) {
       case 'pull_request':
@@ -24,25 +21,23 @@ async function run() {
         throw "Only push and pull_request is supported"
     }
 
-    console.log(base)
-    console.log(head)
 
-      const response = await client.rest.repos.compareCommits({
-        base,
-        head,
-        owner: github.context.repo.owner,
-        repo: github.context.repo.repo
-      })
+    const response = await client.rest.repos.compareCommits({
+      base,
+      head,
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo
+    })
 
-    console.log("Response:")
-    console.log(response)
     const changedFiles = response.data.files
-
-    console.log(changedFiles)
+    const foundReleaseNotes = changedFiles.find(file => file.filename == releaseNotesFilename)
+    if (foundReleaseNotes) {
+      return
+    }
 
     const pullRequestBody = github.context.payload.pull_request?.body
     if (!pullRequestBody.includes(input)) {
-      throw new Error(`Must put ${input} in PR description`)
+      throw new Error(`Must put \"${input}\" in PR description or update release notes file \"${releaseNotesFilename}\"`)
     }
   } catch (error) {
     core.setFailed(error.message);
