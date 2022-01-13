@@ -14,14 +14,22 @@ async function run() {
       pull_number: context.issue.number
     }
     console.log(`Getting PR #${request.pull_number} from ${request.owner}/${request.repo}`)
-    //try {
-      const result = await client.rest.pulls.get(request)
-      //return result.data
-    // } catch (err) {
-    //   core.setFailed(`Request failed with error ${err}`)
-    // }
 
-    console.log(result)
+      const result = await client.rest.pulls.get(request)
+
+    client.rest.checks.create({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      name: "Check Created by API",
+      head_sha: result.head.sha,
+      status: "completed",
+      conclusion: "success",
+      output: {
+        title: "Check Created by API",
+        summary: `dupa`
+      }
+    })
+    //console.log(result)
 
     // console.log(context.payload.issue?.pull_request)
     // console.log(context.payload.pull_request)
