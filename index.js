@@ -1,11 +1,11 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const { context } = require('@actions/github/lib/utils');
+const { context, GitHub } = require('@actions/github/lib/utils');
 
 try {
   const input = core.getInput('relese-notes-ignore-pattern')
 
-  const client = new github.GitHub(core.getInput('token', { required: true }))
+  const client = new GitHub(core.getInput('token', { required: true }))
   
   console.log(github.context.payload)
   console.log(github.context.eventName)
