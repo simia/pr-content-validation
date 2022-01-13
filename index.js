@@ -15,7 +15,7 @@ async function run() {
     }
     console.log(`Getting PR #${request.pull_number} from ${request.owner}/${request.repo}`)
     //try {
-      const result = await github.pulls.get(request)
+      const result = await client.rest.pulls.get(request)
       //return result.data
     // } catch (err) {
     //   core.setFailed(`Request failed with error ${err}`)
