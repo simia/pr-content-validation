@@ -13,10 +13,10 @@ async function run() {
     switch (context.eventName) {
       case 'pull_request':
       case 'pull_request_review_comment':
-      case 'issue':
-        base = context.payload.pull_request?.base?.sha
-        head = context.payload.pull_request?.head?.sha
         break
+      case 'issue':
+        base = context.payload.issue.pull_request?.base?.sha
+        head = context.payload.issue.pull_request?.head?.sha
       default:
         throw "Only push and pull_request is supported"
     }
@@ -35,7 +35,7 @@ async function run() {
     }
 
     console.log(github.context.payload.comment)
-    const pullRequestBody = github.context.payload.pull_request?.body
+    const pullRequestBody = github.context.payload.issue.pull_request?.body
     if (!pullRequestBody.includes(input)) {
       throw new Error(`Must put \"${input}\" in PR description or update release notes file \"${releaseNotesFilename}\"`)
     }
