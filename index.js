@@ -17,6 +17,7 @@ async function run() {
 
       const result = await client.rest.pulls.get(request)
 
+    console.log(result)
     client.rest.checks.create({
       owner: context.repo.owner,
       repo: context.repo.repo,
