@@ -1,6 +1,9 @@
 name: 'PR Validation'
 description: 'Validate PR'
 inputs:
+  token:
+    required: true
+    default: ${{ github.token }}
   relese-notes-ignore-pattern:
     required: true
     default: '[!RL]'
