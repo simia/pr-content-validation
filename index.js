@@ -5,7 +5,7 @@ const { context, GitHub } = require('@actions/github/lib/utils');
 try {
   const input = core.getInput('relese-notes-ignore-pattern')
 
-  const client = new GitHub(core.getInput('token', { required: true }))
+  const client = new GitHub({auth: core.getInput('token', { required: true })})
   
   console.log(github.context.payload)
   console.log(github.context.eventName)
@@ -27,6 +27,7 @@ try {
   console.log(head)
 
   response = (async function(client){
+    
     const response = await client.rest.repos.compareCommits({
       base,
       head,
