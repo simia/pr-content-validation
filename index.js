@@ -26,7 +26,7 @@ try {
   console.log(base)
   console.log(head)
 
-  response = (async function(){
+  response = (async function(client){
     const response = await client.repos.compareCommits({
       base,
       head,
@@ -34,7 +34,7 @@ try {
       repo: github.context.repo.repo
     })
     return response
-  })()
+  })(client)
 
   const changedFiles = response.data.files
 
