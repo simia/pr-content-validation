@@ -18,7 +18,7 @@ async function run() {
         throw "Only push and pull_request is supported"
     }
 
-    const baseBranch = context.payload.pull_request?.base
+    const baseBranch = context.payload.pull_request?.base.ref
     if (baseBranch != 'master') {
       return
     }
