@@ -19,7 +19,9 @@ async function run() {
     }
 
     const baseBranch = context.payload.pull_request?.base
-    console.log(baseBranch);
+    if (baseBranch != 'master') {
+      return
+    }
 
     const response = await client.rest.repos.compareCommits({
       base,
