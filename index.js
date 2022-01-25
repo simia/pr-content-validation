@@ -19,7 +19,7 @@ async function run() {
     }
 
     const baseBranch = context.payload.pull_request?.base
-    console.log(base);
+    console.log(baseBranch);
 
     const response = await client.rest.repos.compareCommits({
       base,
