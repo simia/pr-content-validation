@@ -18,6 +18,9 @@ async function run() {
         throw "Only push and pull_request is supported"
     }
 
+    const baseBranch = context.payload.pull_request?.base
+    console.log(base);
+
     const response = await client.rest.repos.compareCommits({
       base,
       head,
