@@ -31,6 +31,8 @@ async function run() {
       repo: github.context.repo.repo
     })
 
+    const pullRequestBody = github.context.payload.pull_request?.body
+
     if (ignoreMilestonePattern != '') {
       if (context.payload.pull_request?.milestone == null && !pullRequestBody.includes(ignoreMilestonePattern) ) {
         throw new Error(`Must put \"${ignoreMilestonePattern}\" in PR description or set the milestone`)
@@ -43,7 +45,6 @@ async function run() {
       return
     }
     
-    const pullRequestBody = github.context.payload.pull_request?.body
     if (!pullRequestBody.includes(input)) {
       throw new Error(`Must put \"${input}\" in PR description or update release notes file \"${releaseNotesFilename}\"`)
     }
