@@ -6,6 +6,7 @@ async function run() {
   try {
     const input = core.getInput('relese-notes-ignore-pattern')
     const releaseNotesFilename = core.getInput('release-notes-file')
+    const ignoreMilestonePattern = core.getInput("milestone-ignore-pattern")
     const client = new GitHub({ auth: core.getInput('token', { required: true }) })
     
     switch (context.eventName) {
@@ -39,6 +40,12 @@ async function run() {
     const pullRequestBody = github.context.payload.pull_request?.body
     if (!pullRequestBody.includes(input)) {
       throw new Error(`Must put \"${input}\" in PR description or update release notes file \"${releaseNotesFilename}\"`)
+    }
+
+    if (ignoreMilestone != '') {
+      if (context.payload.pull_request?.milestone == null && !pullRequestBody.includes(ignoreMilestonePattern) ) {
+        throw new Error(`Must put \"${ignoreMilestonePattern}\" in PR description or set the milestone`)
+      }
     }
 
   } catch (error) {
