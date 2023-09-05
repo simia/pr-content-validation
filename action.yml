@@ -10,6 +10,9 @@ inputs:
   release-notes-file:
     required: true
     default: 'releases.md'
+  milestone-ignore-pattern:
+    required: true
+    default: '[!MS]'
 
 runs:
   using: 'node16'

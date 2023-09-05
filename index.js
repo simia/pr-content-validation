@@ -6,7 +6,7 @@ async function run() {
   try {
     const input = core.getInput('relese-notes-ignore-pattern')
     const releaseNotesFilename = core.getInput('release-notes-file')
-    const ignoreMilestonePattern = core.getInput("milestone-ignore-pattern")
+    const ignoreMilestonePattern = core.getInput('milestone-ignore-pattern')
     const client = new GitHub({ auth: core.getInput('token', { required: true }) })
     
     switch (context.eventName) {
