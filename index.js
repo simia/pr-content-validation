@@ -31,7 +31,7 @@ async function run() {
       repo: github.context.repo.repo
     })
 
-    if (ignoreMilestone != '') {
+    if (ignoreMilestonePattern != '') {
       if (context.payload.pull_request?.milestone == null && !pullRequestBody.includes(ignoreMilestonePattern) ) {
         throw new Error(`Must put \"${ignoreMilestonePattern}\" in PR description or set the milestone`)
       }
