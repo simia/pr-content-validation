@@ -31,6 +31,12 @@ async function run() {
       repo: github.context.repo.repo
     })
 
+    if (ignoreMilestone != '') {
+      if (context.payload.pull_request?.milestone == null && !pullRequestBody.includes(ignoreMilestonePattern) ) {
+        throw new Error(`Must put \"${ignoreMilestonePattern}\" in PR description or set the milestone`)
+      }
+    }
+
     const changedFiles = response.data.files
     const foundReleaseNotes = changedFiles.find(file => file.filename == releaseNotesFilename)
     if (foundReleaseNotes) {
@@ -41,13 +47,6 @@ async function run() {
     if (!pullRequestBody.includes(input)) {
       throw new Error(`Must put \"${input}\" in PR description or update release notes file \"${releaseNotesFilename}\"`)
     }
-
-    if (ignoreMilestone != '') {
-      if (context.payload.pull_request?.milestone == null && !pullRequestBody.includes(ignoreMilestonePattern) ) {
-        throw new Error(`Must put \"${ignoreMilestonePattern}\" in PR description or set the milestone`)
-      }
-    }
-
   } catch (error) {
     core.setFailed(error.message);
   }
